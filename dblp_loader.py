@@ -98,6 +98,7 @@ class DBLP_Loader():
 
         self.nlp = spacy.load('en')
         self.all_keywords = []
+        self.papers = []
         self.schools = []
         return super().__init__(*args, **kwargs)
 
@@ -123,6 +124,13 @@ class DBLP_Loader():
         filtered_reviewers = list(
             filter(lambda x: x not in current_authors, reviewers))
         return random.choices(filtered_reviewers, k=3)
+
+    def get_random_cited_by(self, paper):
+        current_paper = set(paper)
+        filtered_papers = list(
+            filter(lambda x: x not in paper, self.papers))
+        k = random.randint(1, 10)
+        return random.choices(filtered_papers, k=k)
 
     def extract_conference_venues(self):
         print('Extracting conference venues...')
@@ -577,3 +585,24 @@ class DBLP_Loader():
                           sep=',', index=False)
 
         print("Journal's reviewers generated.")
+
+    def generate_random_citations(self):
+        print("Generating random citations")
+        df_conference_papers = pd.read_csv(
+            'output/conference_papers.csv', sep=',')
+        df_journal_papers = pd.read_csv(
+            'output/journal_papers.csv', sep=',')
+
+        df_conference_papers = df_conference_papers[['uri']]
+        df_journal_papers = df_journal_papers[['uri']]
+
+        df = pd.concat([df_conference_papers, df_journal_papers])
+
+        self.papers = df['uri'].tolist()
+        df['cited_by'] = df['uri'].apply(
+            lambda paper: self.get_random_cited_by(paper))
+        df = df.set_index(['uri']).cited_by.apply(
+            pd.Series).stack().reset_index(name='cited_by').drop('level_1', axis=1)
+
+        df.to_csv('output/paper_citations.csv',
+                  sep=',', index=False)

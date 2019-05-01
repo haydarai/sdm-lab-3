@@ -24,6 +24,7 @@ if __name__ == "__main__":
         file_loader.extract_journal_papers()
         file_loader.extract_conference_authors()
         file_loader.extract_journal_authors()
+        file_loader.generate_random_citations()
         file_loader.generate_random_conference_reviewers()
         file_loader.generate_random_journal_reviewers()
         print("Copy files generated in 'output' folder to '/var/lib/neo4j/import'")
