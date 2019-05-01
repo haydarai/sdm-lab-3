@@ -497,6 +497,7 @@ class DBLP_Loader():
         df = df.dropna(axis=1, how='all')
 
         df = df.dropna(subset=['author'])
+        df = df[df['key'].str.contains('conf/')]
 
         df_authors = df[['author', 'key']]
         df_authors = df_authors.drop_duplicates()
@@ -517,8 +518,15 @@ class DBLP_Loader():
         df_authors['reviewer'] = df_authors['reviewer'].apply(
             remove_numbers_from_name)
 
+        df_authors['reviewer_uri'] = df_authors['reviewer'].apply(
+            get_author_uri)
+        df_authors['paper_uri'] = df_authors.apply(get_paper_uri, axis=1)
+
+        df_authors = df_authors.drop(['reviewer', 'key'], axis=1)
+
         df_authors['textual_description'] = df_authors.apply(
             generate_textual_description, axis=1)
+        df_authors['accept'] = True
 
         df_authors.to_csv('output/conference_paper_reviewers.csv',
                           sep=',', index=False)
@@ -534,6 +542,7 @@ class DBLP_Loader():
         df = df.dropna(axis=1, how='all')
 
         df = df.dropna(subset=['author'])
+        df = df[df['key'].str.contains('journals/')]
 
         df_authors = df[['author', 'key']]
         df_authors = df_authors.drop_duplicates()
@@ -554,8 +563,15 @@ class DBLP_Loader():
         df_authors['reviewer'] = df_authors['reviewer'].apply(
             remove_numbers_from_name)
 
+        df_authors['reviewer_uri'] = df_authors['reviewer'].apply(
+            get_author_uri)
+        df_authors['paper_uri'] = df_authors.apply(get_paper_uri, axis=1)
+
+        df_authors = df_authors.drop(['reviewer', 'key'], axis=1)
+
         df_authors['textual_description'] = df_authors.apply(
             generate_textual_description, axis=1)
+        df_authors['accept'] = True
 
         df_authors.to_csv('output/journal_paper_reviewers.csv',
                           sep=',', index=False)
