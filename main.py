@@ -57,7 +57,6 @@ if __name__ == "__main__":
     elif args.load and args.evolve:
         file_loader = DBLP_Loader()
         database_loader = Neo4J_Loader()
-        database_loader.set_num_of_reviewers()
         database_loader.load_schools()
         file_loader.generate_random_author_schools()
         database_loader.load_author_schools()

@@ -132,34 +132,6 @@ class DBLP_Loader():
         k = random.randint(1, 10)
         return random.choices(filtered_papers, k=k)
 
-    def extract_conference_venues(self):
-        print('Extracting conference venues...')
-        df = pd.read_csv('input/output_proceedings.csv',
-                         delimiter=';', nrows=10000)
-
-        # Drop columns with no value
-        df = df.dropna(axis=1, how='all')
-
-        # Extract useful columns
-        df = df[['booktitle', 'title']]
-
-        # Drop duplicates of conference title
-        df = df.drop_duplicates(['booktitle'], keep='first')
-
-        # Drop rows with any null value in defined columns
-        df = df.dropna(subset=['booktitle', 'title'])
-
-        df['venue'] = df['title'].apply(extract_venue)
-
-        # Drop rows with no venue information
-        df = df.dropna(subset=['venue'])
-
-        df = df[['booktitle', 'venue']]
-
-        df.to_csv('output/conference_venues.csv',
-                  sep=',', index=False)
-        print('Conference venues extracted.')
-
     def extract_conferences(self):
         print('Extracting conferences...')
         df = pd.read_csv('input/output_inproceedings.csv',
@@ -207,6 +179,7 @@ class DBLP_Loader():
         df = df.rename(columns={'crossref': 'uri', 'booktitle': 'title', })
 
         df = pd.merge(df, df_proceedings, on='title', how='left')
+        df['num_of_reviewers'] = 3
 
         df.to_csv('output/conferences.csv',
                   sep=',', index=False)
@@ -231,6 +204,7 @@ class DBLP_Loader():
         df['key'] = df.apply(get_journal_uri, axis=1)
         df['date'] = df.apply(generate_journal_date, axis=1)
         df = df.rename(columns={'key': 'uri'})
+        df['num_of_reviewers'] = 3
 
         df.to_csv('output/journals.csv',
                   sep=',', index=False)
