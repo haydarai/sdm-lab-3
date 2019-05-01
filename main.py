@@ -18,15 +18,16 @@ if __name__ == "__main__":
 
     if args.parse and not args.evolve:
         file_loader = DBLP_Loader()
-        file_loader.extract_conferences()
-        file_loader.extract_journals()
-        file_loader.extract_conference_papers()
-        file_loader.extract_journal_papers()
-        file_loader.extract_conference_authors()
-        file_loader.extract_journal_authors()
-        file_loader.generate_random_citations()
-        file_loader.generate_random_conference_reviewers()
-        file_loader.generate_random_journal_reviewers()
+        # file_loader.extract_conferences()
+        # file_loader.extract_journals()
+        # file_loader.extract_conference_papers()
+        # file_loader.extract_journal_papers()
+        # file_loader.extract_conference_authors()
+        # file_loader.extract_journal_authors()
+        # file_loader.generate_random_citations()
+        # file_loader.generate_random_conference_reviewers()
+        # file_loader.generate_random_journal_reviewers()
+        file_loader.extract_schools()
         print("Copy files generated in 'output' folder to '/var/lib/neo4j/import'")
     elif args.load and not args.evolve:
         database_loader = Neo4J_Loader()
@@ -50,10 +51,6 @@ if __name__ == "__main__":
         database_loader.load_initial_conference_paper_reviews()
         database_loader.load_initial_journal_paper_reviews()
         print('All data loaded.')
-    elif args.parse and args.evolve:
-        file_loader = DBLP_Loader()
-        file_loader.extract_schools()
-        print("Copy files generated in 'output' folder to '/var/lib/neo4j/import'")
     elif args.load and args.evolve:
         file_loader = DBLP_Loader()
         database_loader = Neo4J_Loader()

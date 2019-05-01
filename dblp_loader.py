@@ -82,6 +82,12 @@ def get_journal_uri_from_paper(paper):
     return '/'.join(paper_keys) + '/' + str(paper['year']) + '/' + str(paper['volume'])
 
 
+def get_school_uri(name):
+    name = name.split(',')[0]
+    name = re.sub(r' ', '_', name)
+    return 'https://dblp.org/db/' + 'schools/' + name
+
+
 def generate_journal_date(journal):
     return str(journal['year']) + '-01-01'
 
@@ -415,6 +421,8 @@ class DBLP_Loader():
                          usecols={'school:string'},
                          dtype={'school:string': str})
         df = df.drop_duplicates(['school:string'])
+        df['uri'] = df['school:string'].apply(get_school_uri)
+        df = df.rename(columns={'school:string': 'name'})
 
         df.to_csv('output/schools.csv',
                   sep=',', index=False)
