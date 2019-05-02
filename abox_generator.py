@@ -100,6 +100,32 @@ class ABox_Generator():
 
         print('Journal papers tuples created.')
 
+    def create_conference_paper_keywords(self):
+        print('Creating journal paper keywords tuples...')
+        df = pd.read_csv('output/conference_paper_keywords.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            paper_uri = URIRef(row['uri'])
+            keyword = Literal(row['keyword'], datatype=XSD.string)
+            self.graph.add((paper_uri, dblp_ns.keyword, keyword))
+
+        print('Journal paper keywords tuples created.')
+
+    def create_journal_paper_keywords(self):
+        print('Creating journal paper keywords tuples...')
+        df = pd.read_csv('output/journal_paper_keywords.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            paper_uri = URIRef(row['uri'])
+            keyword = Literal(row['keyword'], datatype=XSD.string)
+            self.graph.add((paper_uri, dblp_ns.keyword, keyword))
+
+        print('Journal paper keywords tuples created.')
+
     def create_author_names(self):
         print('Creating author names tuples...')
         df_corresponding_conference_authors = pd.read_csv(
