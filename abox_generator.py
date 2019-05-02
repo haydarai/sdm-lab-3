@@ -199,6 +199,32 @@ class ABox_Generator():
 
         print('Corresponding authors for journal papers triples created.')
 
+    def create_conference_paper_non_corresponding_authors(self):
+        print('Creating non corresponding authors for conference papers triples...')
+        df = pd.read_csv('output/non_corresponding_conference_authors.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            author_uri = URIRef(row['author_uri'])
+            paper_uri = URIRef(row['paper_uri'])
+            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+
+        print('Non corresponding authors for conference papers triples created.')
+
+    def create_journal_paper_non_corresponding_authors(self):
+        print('Creating non corresponding authors for journal papers triples...')
+        df = pd.read_csv('output/non_corresponding_journal_authors.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            author_uri = URIRef(row['author_uri'])
+            paper_uri = URIRef(row['paper_uri'])
+            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+
+        print('Non corresponding authors for journal papers triples created.')
+
     def create_author_names(self):
         print('Creating author names triples...')
         df_corresponding_conference_authors = pd.read_csv(

@@ -40,4 +40,6 @@ if __name__ == "__main__":
         abox_generator.create_journal_paper_reviewers()
         abox_generator.create_conference_paper_corresponding_authors()
         abox_generator.create_journal_paper_corresponding_authors()
+        abox_generator.create_conference_paper_non_corresponding_authors()
+        abox_generator.create_journal_paper_non_corresponding_authors()
         abox_generator.save()
