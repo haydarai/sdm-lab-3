@@ -42,6 +42,29 @@ class ABox_Generator():
 
         print('Conferences tuples created.')
 
+    def create_journals(self):
+        print('Creating journals tuples...')
+        df = pd.read_csv('output/journals.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            journal_uri = URIRef(row['uri'])
+            title = Literal(row['journal'], datatype=XSD.string)
+            edition = Literal(row['year'], datatype=XSD.string)
+            volume = Literal(row['volume'], datatype=XSD.string)
+            date = Literal(row['date'], datatype=XSD.dateTime)
+            num_of_reviewers = Literal(
+                row['num_of_reviewers'], datatype=XSD.integer)
+            self.graph.add((journal_uri, dblp_ns.title, title))
+            self.graph.add((journal_uri, dblp_ns.edition, edition))
+            self.graph.add((journal_uri, dblp_ns.volume, volume))
+            self.graph.add((journal_uri, dblp_ns.date, date))
+            self.graph.add(
+                (journal_uri, dblp_ns.numOfReviewers, num_of_reviewers))
+
+        print('Journals tuples created.')
+
     def create_author_names(self):
         print('Creating author names tuples...')
         df_corresponding_conference_authors = pd.read_csv(

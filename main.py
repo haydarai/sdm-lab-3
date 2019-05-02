@@ -31,4 +31,5 @@ if __name__ == "__main__":
         abox_generator.create_schools()
         abox_generator.create_author_names()
         abox_generator.create_conferences()
+        abox_generator.create_journals()
         abox_generator.save()
