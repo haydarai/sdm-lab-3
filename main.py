@@ -36,4 +36,6 @@ if __name__ == "__main__":
         abox_generator.create_journal_papers()
         abox_generator.create_conference_paper_keywords()
         abox_generator.create_journal_paper_keywords()
+        abox_generator.create_conference_paper_reviewers()
+        abox_generator.create_journal_paper_reviewers()
         abox_generator.save()
