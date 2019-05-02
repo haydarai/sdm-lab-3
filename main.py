@@ -25,7 +25,7 @@ if __name__ == "__main__":
         file_loader.generate_random_journal_reviewers()
         file_loader.extract_schools()
         file_loader.generate_random_author_schools()
-        print("Copy files generated in 'output' folder to '/var/lib/neo4j/import'")
+        print("Files necessary for creating ABOX are ready.")
     elif args.generate:
         abox_generator = ABox_Generator()
         abox_generator.create_schools()
@@ -42,4 +42,5 @@ if __name__ == "__main__":
         abox_generator.create_journal_paper_corresponding_authors()
         abox_generator.create_conference_paper_non_corresponding_authors()
         abox_generator.create_journal_paper_non_corresponding_authors()
+        abox_generator.create_paper_citations()
         abox_generator.save()

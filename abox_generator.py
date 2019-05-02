@@ -181,7 +181,8 @@ class ABox_Generator():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
             self.graph.add((author_uri, dblp_ns.write, paper_uri))
-            self.graph.add((paper_uri, dblp_ns.correspondingAuthor, author_uri))
+            self.graph.add(
+                (paper_uri, dblp_ns.correspondingAuthor, author_uri))
 
         print('Corresponding authors for conference papers triples created.')
 
@@ -195,7 +196,8 @@ class ABox_Generator():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
             self.graph.add((author_uri, dblp_ns.write, paper_uri))
-            self.graph.add((paper_uri, dblp_ns.correspondingAuthor, author_uri))
+            self.graph.add(
+                (paper_uri, dblp_ns.correspondingAuthor, author_uri))
 
         print('Corresponding authors for journal papers triples created.')
 
@@ -224,6 +226,19 @@ class ABox_Generator():
             self.graph.add((author_uri, dblp_ns.write, paper_uri))
 
         print('Non corresponding authors for journal papers triples created.')
+
+    def create_paper_citations(self):
+        print('Creating citations triples...')
+        df = pd.read_csv('output/paper_citations.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            paper_uri = URIRef(row['uri'])
+            citing_paper_uri = URIRef(row['cited_by'])
+            self.graph.add((paper_uri, dblp_ns.citedBy, citing_paper_uri))
+
+        print('Paper citations triples created.')
 
     def create_author_names(self):
         print('Creating author names triples...')
@@ -263,4 +278,4 @@ class ABox_Generator():
 
     def save(self):
         self.graph.serialize(destination='output/graph.nt')
-        print('Graph saved as graph.nt')
+        print('ABox saved as graph.nt')
