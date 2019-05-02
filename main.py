@@ -1,8 +1,7 @@
 from dotenv import load_dotenv
 import argparse
-from neo4j_loader import Neo4J_Loader
 from dblp_loader import DBLP_Loader
-from query_runner import Query_Runner
+from abox_generator import ABox_Generator
 
 load_dotenv()
 
@@ -10,10 +9,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--parse', action='store_true')
-    parser.add_argument('--load', action='store_true')
-    parser.add_argument('--evolve', action='store_true')
-    parser.add_argument('--recommend')
-    parser.add_argument('--gurus', type=int)
+    parser.add_argument('--generate', action='store_true')
     args = parser.parse_args()
 
     if args.parse:
@@ -30,18 +26,9 @@ if __name__ == "__main__":
         file_loader.extract_schools()
         file_loader.generate_random_author_schools()
         print("Copy files generated in 'output' folder to '/var/lib/neo4j/import'")
-    elif args.recommend and args.gurus:
-        keywords = """['data', 'database', 'management', 'olap', 'postgres', 'xml', 'relational', 'queries', 'sql']"""
-        query_runner = Query_Runner()
-        publications = query_runner.get_publication_communities(args.recommend)
-        papers = query_runner.get_top_papers(publications)
-        gurus = query_runner.get_gurus(papers, args.gurus)
-        print('Gurus:')
-        print(gurus)
-    elif args.recommend:
-        query_runner = Query_Runner()
-        publications = query_runner.get_publication_communities(args.recommend)
-        papers = query_runner.get_top_papers(publications)
-        authors = query_runner.get_authors(papers)
-        print('Recommended reviewers:')
-        print(authors)
+    elif args.generate:
+        abox_generator = ABox_Generator()
+        abox_generator.create_schools()
+        abox_generator.create_author_names()
+        abox_generator.create_conferences()
+        abox_generator.save()

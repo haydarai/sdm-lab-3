@@ -27,11 +27,17 @@ def is_corresponding(author):
 
 def get_author_uri(full_name):
     full_name = re.sub(r'\d+', '', full_name)
+    first_name = re.sub(' ', '_', HumanName(full_name).first)
+    middle_name = re.sub(' ', '_', HumanName(full_name).middle)
     last_name = re.sub(' ', '_', HumanName(full_name).last)
-    first_name = HumanName(full_name).first
-    if (first_name):
-        return 'https://dblp.org/db/' + 'pers/' + HumanName(full_name).last + '_' + HumanName(full_name).first[0]
-    return 'https://dblp.org/db/' + 'pers/' + HumanName(full_name).last
+    first_name = re.sub('[^a-zA-Z_-]', '', first_name)
+    middle_name = re.sub('[^a-zA-Z_-]', '', middle_name)
+    last_name = re.sub('[^a-zA-Z_-]', '', last_name)
+    if first_name:
+        return 'https://dblp.org/db/' + 'pers/' + last_name + '_' + first_name
+    elif first_name and middle_name:
+        return 'https://dblp.org/db/' + 'pers/' + last_name + '_' + first_name + '_' + middle_name
+    return 'https://dblp.org/db/' + 'pers/' + last_name
 
 
 def extract_last_name(full_name):
@@ -40,7 +46,8 @@ def extract_last_name(full_name):
 
 
 def remove_numbers_from_name(name):
-    return re.sub(r'\d+', '', name)
+    name = re.sub(r'\d+', '', name)
+    return name.strip()
 
 
 def extract_venue(title):
@@ -52,8 +59,9 @@ def extract_venue(title):
 
 
 def generate_conference_dates(conference):
-    conference['start_date'] = str(conference['year']) + '-01-01'
-    conference['end_date'] = str(conference['year']) + '-01-02'
+    conference['date'] = str(conference['year']) + '-01-01'
+    n = random.randint(3, 5)
+    conference['duration'] = f'P{n}D'
     return conference
 
 
@@ -187,6 +195,20 @@ class DBLP_Loader():
         df = pd.merge(df, df_proceedings, on='title', how='left')
         df['num_of_reviewers'] = 3
 
+        count = len(df.index)
+        first_third = int(1 * (count / 3))
+        second_third = int(2 * (count / 3))
+
+        df_artificial_intelligence = df[:first_third]
+        df_machine_learning = df[first_third:second_third]
+        df_database = df[second_third:]
+
+        df_artificial_intelligence.to_csv('output/artificial_intelligence_conferences.csv',
+                                          sep=',', index=False)
+        df_machine_learning.to_csv('output/machine_learning_conferences.csv',
+                                   sep=',', index=False)
+        df_database.to_csv('output/database_conferences.csv',
+                           sep=',', index=False)
         df.to_csv('output/conferences.csv',
                   sep=',', index=False)
         print('Conferences extracted.')
@@ -212,6 +234,16 @@ class DBLP_Loader():
         df = df.rename(columns={'key': 'uri'})
         df['num_of_reviewers'] = 3
 
+        count = len(df.index)
+        half = int(count / 2)
+
+        df_open_access = df[:half]
+        df_close_access = df[half:]
+
+        df_open_access.to_csv('output/open_access_journals.csv',
+                              sep=',', index=False)
+        df_close_access.to_csv('output/close_access_journals.csv',
+                               sep=',', index=False)
         df.to_csv('output/journals.csv',
                   sep=',', index=False)
         print('Journals extracted.')
@@ -260,6 +292,24 @@ class DBLP_Loader():
         df = df.rename(columns={'key': 'uri'})
         df_keywords = df_keywords.rename(columns={'key': 'uri'})
 
+        count = len(df.index)
+        first_quarter = int(1 * (count / 4))
+        second_quarter = int(2 * (count / 4))
+        third_quarter = int(3 * (count / 4))
+
+        df_demo = df[:first_quarter]
+        df_full = df[first_quarter:second_quarter]
+        df_short = df[second_quarter:third_quarter]
+        df_survey = df[third_quarter:]
+
+        df_demo.to_csv('output/demo_conference_papers.csv',
+                       sep=',', index=False)
+        df_full.to_csv('output/full_conference_papers.csv',
+                       sep=',', index=False)
+        df_short.to_csv('output/short_conference_papers.csv',
+                        sep=',', index=False)
+        df_survey.to_csv('output/survey_conference_papers.csv',
+                         sep=',', index=False)
         df.to_csv('output/conference_papers.csv',
                   sep=',', index=False)
         df_keywords.to_csv('output/conference_paper_keywords.csv',
@@ -310,6 +360,24 @@ class DBLP_Loader():
         df = df.rename(columns={'key': 'uri'})
         df_keywords = df_keywords.rename(columns={'key': 'uri'})
 
+        count = len(df.index)
+        first_quarter = int(1 * (count / 4))
+        second_quarter = int(2 * (count / 4))
+        third_quarter = int(3 * (count / 4))
+
+        df_demo = df[:first_quarter]
+        df_full = df[first_quarter:second_quarter]
+        df_short = df[second_quarter:third_quarter]
+        df_survey = df[third_quarter:]
+
+        df_demo.to_csv('output/demo_journal_papers.csv',
+                       sep=',', index=False)
+        df_full.to_csv('output/full_journal_papers.csv',
+                       sep=',', index=False)
+        df_short.to_csv('output/short_journal_papers.csv',
+                        sep=',', index=False)
+        df_survey.to_csv('output/survey_journal_papers.csv',
+                         sep=',', index=False)
         df.to_csv('output/journal_papers.csv',
                   sep=',', index=False)
         df_keywords.to_csv('output/journal_paper_keywords.csv',
@@ -432,27 +500,27 @@ class DBLP_Loader():
         print("Generating random author's schools")
 
         df_corresponding_conference_authors = pd.read_csv(
-            'output/corresponding_conference_authors.csv', delimiter=',', nrows=10000)
+            'output/corresponding_conference_authors.csv')
         df_corresponding_conference_authors = df_corresponding_conference_authors[[
             'author_uri']]
         df_corresponding_conference_authors['author_uri'] = df_corresponding_conference_authors[
             'author_uri']
 
         df_corresponding_journal_authors = pd.read_csv(
-            'output/corresponding_journal_authors.csv', delimiter=',', nrows=10000)
+            'output/corresponding_journal_authors.csv')
         df_corresponding_journal_authors = df_corresponding_journal_authors[[
             'author_uri']]
         df_corresponding_journal_authors['author_uri'] = df_corresponding_journal_authors['author_uri']
 
         df_non_corresponding_conference_authors = pd.read_csv(
-            'output/non_corresponding_conference_authors.csv', delimiter=',', nrows=10000)
+            'output/non_corresponding_conference_authors.csv')
         df_non_corresponding_conference_authors = df_non_corresponding_conference_authors[[
             'author_uri']]
         df_non_corresponding_conference_authors['author_uri'] = df_non_corresponding_conference_authors[
             'author_uri']
 
         df_non_corresponding_journal_authors = pd.read_csv(
-            'output/non_corresponding_journal_authors.csv', delimiter=',', nrows=10000)
+            'output/non_corresponding_journal_authors.csv')
         df_non_corresponding_journal_authors = df_non_corresponding_journal_authors[[
             'author_uri']]
         df_non_corresponding_journal_authors['author_uri'] = df_non_corresponding_journal_authors[
