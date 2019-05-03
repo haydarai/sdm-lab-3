@@ -277,5 +277,5 @@ class ABox_Generator():
         print('Author names triples created.')
 
     def save(self):
-        self.graph.serialize(destination='output/graph.nt', format='turtle')
-        print('ABox saved as graph.nt')
+        self.graph.serialize(destination='output/graph.ttl', format='turtle')
+        print('ABox saved as graph.ttl')
