@@ -5,5 +5,4 @@ gensim==3.4.0
 nameparser==1.0.2
 spacy==2.0.18
 geograpy3==0.1.2
-Owlready2==0.16
 rdflib==4.2.2
