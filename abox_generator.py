@@ -6,6 +6,9 @@ from rdflib import Graph, URIRef, BNode, Literal, XSD, RDFS, Namespace
 class ABox_Generator():
     def __init__(self, *args, **kwargs):
         self.graph = Graph()
+        self.dblp_ns = Namespace('https://dblp.org/ontologies/')
+        self.dbpedia_ns = Namespace('https://dbpedia.org/ontology/')
+
         return super().__init__(*args, **kwargs)
 
     def create_schools(self):
@@ -22,21 +25,17 @@ class ABox_Generator():
         print("Creating author's schools triples...")
         df = pd.read_csv('output/author_schools.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             school_uri = URIRef(row['school_uri'])
-            self.graph.add((author_uri, dblp_ns.affiliatedWith, school_uri))
+            self.graph.add(
+                (author_uri, self.dblp_ns.affiliatedWith, school_uri))
 
         print("Author's schools triples created.")
 
     def create_conferences(self):
         print('Creating conferences triples...')
         df = pd.read_csv('output/conferences.csv')
-
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-        dbpedia_ns = Namespace('https://dbpedia.org/ontology/')
 
         for index, row in df.iterrows():
             conference_uri = URIRef(row['uri'])
@@ -47,21 +46,20 @@ class ABox_Generator():
             venue = Literal(row['venue'], datatype=XSD.string)
             num_of_reviewers = Literal(
                 row['num_of_reviewers'], datatype=XSD.integer)
-            self.graph.add((conference_uri, dblp_ns.title, title))
-            self.graph.add((conference_uri, dblp_ns.edition, edition))
-            self.graph.add((conference_uri, dblp_ns.date, date))
-            self.graph.add((conference_uri, dbpedia_ns.duration, duration))
-            self.graph.add((conference_uri, dblp_ns.venue, venue))
+            self.graph.add((conference_uri, self.dblp_ns.title, title))
+            self.graph.add((conference_uri, self.dblp_ns.edition, edition))
+            self.graph.add((conference_uri, self.dblp_ns.date, date))
             self.graph.add(
-                (conference_uri, dblp_ns.numOfReviewers, num_of_reviewers))
+                (conference_uri, self.dbpedia_ns.duration, duration))
+            self.graph.add((conference_uri, self.dblp_ns.venue, venue))
+            self.graph.add(
+                (conference_uri, self.dblp_ns.numOfReviewers, num_of_reviewers))
 
         print('Conferences triples created.')
 
     def create_journals(self):
         print('Creating journals triples...')
         df = pd.read_csv('output/journals.csv')
-
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
 
         for index, row in df.iterrows():
             journal_uri = URIRef(row['uri'])
@@ -71,12 +69,12 @@ class ABox_Generator():
             date = Literal(row['date'], datatype=XSD.dateTime)
             num_of_reviewers = Literal(
                 row['num_of_reviewers'], datatype=XSD.integer)
-            self.graph.add((journal_uri, dblp_ns.title, title))
-            self.graph.add((journal_uri, dblp_ns.edition, edition))
-            self.graph.add((journal_uri, dblp_ns.volume, volume))
-            self.graph.add((journal_uri, dblp_ns.date, date))
+            self.graph.add((journal_uri, self.dblp_ns.title, title))
+            self.graph.add((journal_uri, self.dblp_ns.edition, edition))
+            self.graph.add((journal_uri, self.dblp_ns.volume, volume))
+            self.graph.add((journal_uri, self.dblp_ns.date, date))
             self.graph.add(
-                (journal_uri, dblp_ns.numOfReviewers, num_of_reviewers))
+                (journal_uri, self.dblp_ns.numOfReviewers, num_of_reviewers))
 
         print('Journals triples created.')
 
@@ -84,16 +82,15 @@ class ABox_Generator():
         print('Creating conferences triples...')
         df = pd.read_csv('output/conference_papers.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             paper_uri = URIRef(row['uri'])
             title = Literal(row['title'], datatype=XSD.string)
             abstract = Literal(row['abstract'], datatype=XSD.string)
             conference_uri = URIRef(row['conference_uri'])
-            self.graph.add((paper_uri, dblp_ns.title, title))
-            self.graph.add((paper_uri, dblp_ns.abstract, abstract))
-            self.graph.add((paper_uri, dblp_ns.publishedIn, conference_uri))
+            self.graph.add((paper_uri, self.dblp_ns.title, title))
+            self.graph.add((paper_uri, self.dblp_ns.abstract, abstract))
+            self.graph.add(
+                (paper_uri, self.dblp_ns.publishedIn, conference_uri))
 
         print('Conference papers triples created.')
 
@@ -101,16 +98,14 @@ class ABox_Generator():
         print('Creating journal triples...')
         df = pd.read_csv('output/journal_papers.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             paper_uri = URIRef(row['uri'])
             title = Literal(row['title'], datatype=XSD.string)
             abstract = Literal(row['abstract'], datatype=XSD.string)
             journal_uri = URIRef(row['journal_uri'])
-            self.graph.add((paper_uri, dblp_ns.title, title))
-            self.graph.add((paper_uri, dblp_ns.abstract, abstract))
-            self.graph.add((paper_uri, dblp_ns.publishedIn, journal_uri))
+            self.graph.add((paper_uri, self.dblp_ns.title, title))
+            self.graph.add((paper_uri, self.dblp_ns.abstract, abstract))
+            self.graph.add((paper_uri, self.dblp_ns.publishedIn, journal_uri))
 
         print('Journal papers triples created.')
 
@@ -118,12 +113,10 @@ class ABox_Generator():
         print('Creating journal paper keywords triples...')
         df = pd.read_csv('output/conference_paper_keywords.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             paper_uri = URIRef(row['uri'])
             keyword = Literal(row['keyword'], datatype=XSD.string)
-            self.graph.add((paper_uri, dblp_ns.keyword, keyword))
+            self.graph.add((paper_uri, self.dblp_ns.keyword, keyword))
 
         print('Journal paper keywords triples created.')
 
@@ -131,12 +124,10 @@ class ABox_Generator():
         print('Creating journal paper keywords triples...')
         df = pd.read_csv('output/journal_paper_keywords.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             paper_uri = URIRef(row['uri'])
             keyword = Literal(row['keyword'], datatype=XSD.string)
-            self.graph.add((paper_uri, dblp_ns.keyword, keyword))
+            self.graph.add((paper_uri, self.dblp_ns.keyword, keyword))
 
         print('Journal paper keywords triples created.')
 
@@ -144,8 +135,6 @@ class ABox_Generator():
         print('Creating journal paper reviewers triples...')
         df = pd.read_csv('output/conference_paper_reviewers.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             reviewer_uri = URIRef(row['reviewer_uri'])
             paper_uri = URIRef(row['paper_uri'])
@@ -153,12 +142,13 @@ class ABox_Generator():
                 row['textual_description'], datatype=XSD.string)
             accept = Literal('true', datatype=XSD.boolean)
             review_uri = URIRef(
-                'https://dblg.org/db/reviews/' + uuid.uuid4().hex)
-            self.graph.add((reviewer_uri, dblp_ns.writeReview, review_uri))
-            self.graph.add((review_uri, dblp_ns.about, paper_uri))
+                'https://dblp.org/db/reviews/' + uuid.uuid4().hex)
             self.graph.add(
-                (review_uri, dblp_ns.textualDescription, textual_description))
-            self.graph.add((review_uri, dblp_ns.accept, accept))
+                (reviewer_uri, self.dblp_ns.writeReview, review_uri))
+            self.graph.add((review_uri, self.dblp_ns.about, paper_uri))
+            self.graph.add(
+                (review_uri, self.dblp_ns.textualDescription, textual_description))
+            self.graph.add((review_uri, self.dblp_ns.accept, accept))
 
         print('Journal paper reviewers triples created.')
 
@@ -166,8 +156,6 @@ class ABox_Generator():
         print('Creating journal paper reviewers triples...')
         df = pd.read_csv('output/journal_paper_reviewers.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             reviewer_uri = URIRef(row['reviewer_uri'])
             paper_uri = URIRef(row['paper_uri'])
@@ -175,12 +163,13 @@ class ABox_Generator():
                 row['textual_description'], datatype=XSD.string)
             accept = Literal('true', datatype=XSD.boolean)
             review_uri = URIRef(
-                'https://dblg.org/db/reviews/' + uuid.uuid4().hex)
-            self.graph.add((reviewer_uri, dblp_ns.writeReview, review_uri))
-            self.graph.add((review_uri, dblp_ns.about, paper_uri))
+                'https://dblp.org/db/reviews/' + uuid.uuid4().hex)
             self.graph.add(
-                (review_uri, dblp_ns.textualDescription, textual_description))
-            self.graph.add((review_uri, dblp_ns.accept, accept))
+                (reviewer_uri, self.dblp_ns.writeReview, review_uri))
+            self.graph.add((review_uri, self.dblp_ns.about, paper_uri))
+            self.graph.add(
+                (review_uri, self.dblp_ns.textualDescription, textual_description))
+            self.graph.add((review_uri, self.dblp_ns.accept, accept))
 
         print('Journal paper reviewers triples created.')
 
@@ -188,14 +177,12 @@ class ABox_Generator():
         print('Creating corresponding authors for conference papers triples...')
         df = pd.read_csv('output/corresponding_conference_authors.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
-            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+            self.graph.add((author_uri, self.dblp_ns.write, paper_uri))
             self.graph.add(
-                (paper_uri, dblp_ns.correspondingAuthor, author_uri))
+                (paper_uri, self.dblp_ns.correspondingAuthor, author_uri))
 
         print('Corresponding authors for conference papers triples created.')
 
@@ -203,14 +190,12 @@ class ABox_Generator():
         print('Creating corresponding authors for journal papers triples...')
         df = pd.read_csv('output/corresponding_journal_authors.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
-            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+            self.graph.add((author_uri, self.dblp_ns.write, paper_uri))
             self.graph.add(
-                (paper_uri, dblp_ns.correspondingAuthor, author_uri))
+                (paper_uri, self.dblp_ns.correspondingAuthor, author_uri))
 
         print('Corresponding authors for journal papers triples created.')
 
@@ -218,12 +203,10 @@ class ABox_Generator():
         print('Creating non corresponding authors for conference papers triples...')
         df = pd.read_csv('output/non_corresponding_conference_authors.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
-            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+            self.graph.add((author_uri, self.dblp_ns.write, paper_uri))
 
         print('Non corresponding authors for conference papers triples created.')
 
@@ -231,12 +214,10 @@ class ABox_Generator():
         print('Creating non corresponding authors for journal papers triples...')
         df = pd.read_csv('output/non_corresponding_journal_authors.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             paper_uri = URIRef(row['paper_uri'])
-            self.graph.add((author_uri, dblp_ns.write, paper_uri))
+            self.graph.add((author_uri, self.dblp_ns.write, paper_uri))
 
         print('Non corresponding authors for journal papers triples created.')
 
@@ -244,12 +225,10 @@ class ABox_Generator():
         print('Creating citations triples...')
         df = pd.read_csv('output/paper_citations.csv')
 
-        dblp_ns = Namespace('https://dblg.org/ontologies/')
-
         for index, row in df.iterrows():
             paper_uri = URIRef(row['uri'])
             citing_paper_uri = URIRef(row['cited_by'])
-            self.graph.add((paper_uri, dblp_ns.citedBy, citing_paper_uri))
+            self.graph.add((paper_uri, self.dblp_ns.citedBy, citing_paper_uri))
 
         print('Paper citations triples created.')
 
@@ -280,12 +259,11 @@ class ABox_Generator():
         df = df.drop_duplicates()
         df = pd.DataFrame(df)
 
-        dbpedia_ns = Namespace('https://dbpedia.org/ontology/')
-
         for index, row in df.iterrows():
             author_uri = URIRef(row['author_uri'])
             author_name = Literal(row['author'], datatype=XSD.string)
-            self.graph.add((author_uri, dbpedia_ns.birthName, author_name))
+            self.graph.add(
+                (author_uri, self.dbpedia_ns.birthName, author_name))
 
         print('Author names triples created.')
 
