@@ -18,6 +18,19 @@ class ABox_Generator():
 
         print('Schools triples created.')
 
+    def create_author_schools(self):
+        print("Creating author's schools triples...")
+        df = pd.read_csv('output/author_schools.csv')
+
+        dblp_ns = Namespace('https://dblg.org/ontologies/')
+
+        for index, row in df.iterrows():
+            author_uri = URIRef(row['author_uri'])
+            school_uri = URIRef(row['school_uri'])
+            self.graph.add((author_uri, dblp_ns.affiliatedWith, school_uri))
+
+        print("Author's schools triples created.")
+
     def create_conferences(self):
         print('Creating conferences triples...')
         df = pd.read_csv('output/conferences.csv')

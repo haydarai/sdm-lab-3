@@ -139,3 +139,5 @@ datasets/*
 explaratory.py
 input/*
 output/*
+graph/*
+!graph/tbox.ttl

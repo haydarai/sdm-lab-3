@@ -30,6 +30,7 @@ if __name__ == "__main__":
         abox_generator = ABox_Generator()
         abox_generator.create_schools()
         abox_generator.create_author_names()
+        abox_generator.create_author_schools()
         abox_generator.create_conferences()
         abox_generator.create_journals()
         abox_generator.create_conference_papers()
