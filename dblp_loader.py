@@ -194,21 +194,6 @@ class DBLP_Loader():
 
         df = pd.merge(df, df_proceedings, on='title', how='left')
         df['num_of_reviewers'] = 3
-
-        count = len(df.index)
-        first_third = int(1 * (count / 3))
-        second_third = int(2 * (count / 3))
-
-        df_artificial_intelligence = df[:first_third]
-        df_machine_learning = df[first_third:second_third]
-        df_database = df[second_third:]
-
-        df_artificial_intelligence.to_csv('output/artificial_intelligence_conferences.csv',
-                                          sep=',', index=False)
-        df_machine_learning.to_csv('output/machine_learning_conferences.csv',
-                                   sep=',', index=False)
-        df_database.to_csv('output/database_conferences.csv',
-                           sep=',', index=False)
         df.to_csv('output/conferences.csv',
                   sep=',', index=False)
         print('Conferences extracted.')
