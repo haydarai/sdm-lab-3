@@ -1,0 +1,272 @@
+@prefix : <https://dblp.org/ontologies/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://dblp.org/ontologies> .
+
+<https://dblp.org/ontologies> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://dblp.org/ontologies/about
+:about rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf owl:topObjectProperty ;
+       rdfs:domain :Review ;
+       rdfs:range <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  https://dblp.org/ontologies/affiliatedWith
+:affiliatedWith rdf:type owl:ObjectProperty ;
+                rdfs:domain <http://dbpedia.org/ontology/Person> ;
+                rdfs:range :Organization .
+
+
+###  https://dblp.org/ontologies/citedBy
+:citedBy rdf:type owl:ObjectProperty ;
+         rdfs:domain <http://purl.org/ontology/bibo/Document> ;
+         rdfs:range <http://purl.org/ontology/bibo/Document> .
+
+
+###  https://dblp.org/ontologies/correspondingAuthor
+:correspondingAuthor rdf:type owl:ObjectProperty ;
+                     rdfs:domain <http://purl.org/ontology/bibo/Document> ;
+                     rdfs:range :Author .
+
+
+###  https://dblp.org/ontologies/publishedIn
+:publishedIn rdf:type owl:ObjectProperty ;
+             rdfs:domain <http://purl.org/ontology/bibo/AcademicArticle> ;
+             rdfs:range <http://dbpedia.org/ontology/AcademicConference> ,
+                        <http://dbpedia.org/ontology/AcademicJournal> .
+
+
+###  https://dblp.org/ontologies/write
+:write rdf:type owl:ObjectProperty ;
+       rdfs:domain :Author ;
+       rdfs:range <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  https://dblp.org/ontologies/writeReview
+:writeReview rdf:type owl:ObjectProperty ;
+             rdfs:domain :Reviewer ;
+             rdfs:range :Review .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://dbpedia.org/ontology/birthName
+<http://dbpedia.org/ontology/birthName> rdf:type owl:DatatypeProperty ;
+                                        rdfs:subPropertyOf owl:topDataProperty ;
+                                        rdfs:domain <http://dbpedia.org/ontology/Person> ;
+                                        rdfs:range xsd:string .
+
+
+###  http://dbpedia.org/ontology/duration
+<http://dbpedia.org/ontology/duration> rdf:type owl:DatatypeProperty ;
+                                       rdfs:subPropertyOf owl:topDataProperty ;
+                                       rdfs:domain <http://dbpedia.org/ontology/Event> ;
+                                       rdfs:range xsd:double ,
+                                                  xsd:string .
+
+
+###  http://www.w3.org/2002/07/owl#topDataProperty
+owl:topDataProperty rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/abstract
+:abstract rdf:type owl:DatatypeProperty ;
+          rdfs:domain <http://purl.org/ontology/bibo/Document> ;
+          rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/accept
+:accept rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Review ;
+        rdfs:range xsd:boolean .
+
+
+###  https://dblp.org/ontologies/date
+:date rdf:type owl:DatatypeProperty ;
+      rdfs:subPropertyOf owl:topDataProperty ;
+      rdfs:domain <http://dbpedia.org/ontology/AcademicJournal> ,
+                  <http://dbpedia.org/ontology/Event> ;
+      rdfs:range xsd:dateTime .
+
+
+###  https://dblp.org/ontologies/edition
+:edition rdf:type owl:DatatypeProperty ;
+         rdfs:domain <http://dbpedia.org/ontology/AcademicConference> ,
+                     <http://dbpedia.org/ontology/AcademicJournal> ;
+         rdfs:range xsd:integer ,
+                    xsd:string .
+
+
+###  https://dblp.org/ontologies/keyword
+:keyword rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty ;
+         rdfs:domain <http://purl.org/ontology/bibo/Article> ;
+         rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/numOfReviewers
+:numOfReviewers rdf:type owl:DatatypeProperty ;
+                rdfs:domain <http://dbpedia.org/ontology/AcademicConference> ,
+                            <http://dbpedia.org/ontology/AcademicJournal> ;
+                rdfs:range xsd:integer .
+
+
+###  https://dblp.org/ontologies/textualDescription
+:textualDescription rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Review ;
+                    rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/title
+:title rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty ;
+       rdfs:domain <http://dbpedia.org/ontology/AcademicJournal> ,
+                   <http://dbpedia.org/ontology/Event> ,
+                   <http://purl.org/ontology/bibo/Document> ;
+       rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/venue
+:venue rdf:type owl:DatatypeProperty ;
+       rdfs:domain <http://dbpedia.org/ontology/Event> ;
+       rdfs:range xsd:string .
+
+
+###  https://dblp.org/ontologies/volume
+:volume rdf:type owl:DatatypeProperty ;
+        rdfs:subPropertyOf owl:topDataProperty ;
+        rdfs:domain <http://dbpedia.org/ontology/AcademicJournal> ;
+        rdfs:range xsd:integer ,
+                   xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://dbpedia.org/ontology/AcademicConference
+<http://dbpedia.org/ontology/AcademicConference> rdf:type owl:Class ;
+                                                 rdfs:subClassOf <http://dbpedia.org/ontology/SocietalEvent> .
+
+
+###  http://dbpedia.org/ontology/AcademicJournal
+<http://dbpedia.org/ontology/AcademicJournal> rdf:type owl:Class ;
+                                              rdfs:subClassOf owl:Thing .
+
+
+###  http://dbpedia.org/ontology/Event
+<http://dbpedia.org/ontology/Event> rdf:type owl:Class ;
+                                    rdfs:subClassOf owl:Thing .
+
+
+###  http://dbpedia.org/ontology/Person
+<http://dbpedia.org/ontology/Person> rdf:type owl:Class ;
+                                     rdfs:subClassOf owl:Thing .
+
+
+###  http://dbpedia.org/ontology/SocietalEvent
+<http://dbpedia.org/ontology/SocietalEvent> rdf:type owl:Class ;
+                                            rdfs:subClassOf <http://dbpedia.org/ontology/Event> .
+
+
+###  http://purl.org/ontology/bibo/AcademicArticle
+<http://purl.org/ontology/bibo/AcademicArticle> rdf:type owl:Class ;
+                                                rdfs:subClassOf <http://purl.org/ontology/bibo/Article> .
+
+
+###  http://purl.org/ontology/bibo/Article
+<http://purl.org/ontology/bibo/Article> rdf:type owl:Class ;
+                                        rdfs:subClassOf <http://purl.org/ontology/bibo/Document> .
+
+
+###  http://purl.org/ontology/bibo/Document
+<http://purl.org/ontology/bibo/Document> rdf:type owl:Class ;
+                                         rdfs:subClassOf owl:Thing .
+
+
+###  https://dblp.org/ontologies/ArtificialIntelligenceConference
+:ArtificialIntelligenceConference rdf:type owl:Class ;
+                                  rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
+
+
+###  https://dblp.org/ontologies/Author
+:Author rdf:type owl:Class ;
+        rdfs:subClassOf <http://dbpedia.org/ontology/Person> .
+
+
+###  https://dblp.org/ontologies/ClosedAccessJournal
+:ClosedAccessJournal rdf:type owl:Class ;
+                     rdfs:subClassOf <http://dbpedia.org/ontology/AcademicJournal> .
+
+
+###  https://dblp.org/ontologies/Company
+:Company rdf:type owl:Class ;
+         rdfs:subClassOf :Organization .
+
+
+###  https://dblp.org/ontologies/DatabaseConference
+:DatabaseConference rdf:type owl:Class ;
+                    rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
+
+
+###  https://dblp.org/ontologies/DemoPaper
+:DemoPaper rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  https://dblp.org/ontologies/FullPaper
+:FullPaper rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  https://dblp.org/ontologies/MachineLearningConference
+:MachineLearningConference rdf:type owl:Class ;
+                           rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
+
+
+###  https://dblp.org/ontologies/OpenAccessJournal
+:OpenAccessJournal rdf:type owl:Class ;
+                   rdfs:subClassOf <http://dbpedia.org/ontology/AcademicJournal> .
+
+
+###  https://dblp.org/ontologies/Organization
+:Organization rdf:type owl:Class ;
+              rdfs:subClassOf owl:Thing .
+
+
+###  https://dblp.org/ontologies/Review
+:Review rdf:type owl:Class ;
+        rdfs:subClassOf owl:Thing .
+
+
+###  https://dblp.org/ontologies/Reviewer
+:Reviewer rdf:type owl:Class ;
+          rdfs:subClassOf :Author .
+
+
+###  https://dblp.org/ontologies/School
+:School rdf:type owl:Class ;
+        rdfs:subClassOf :Organization .
+
+
+###  https://dblp.org/ontologies/ShortPaper
+:ShortPaper rdf:type owl:Class ;
+            rdfs:subClassOf <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  https://dblp.org/ontologies/SurveyPaper
+:SurveyPaper rdf:type owl:Class ;
+             rdfs:subClassOf <http://purl.org/ontology/bibo/AcademicArticle> .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
