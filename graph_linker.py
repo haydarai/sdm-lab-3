@@ -5,6 +5,7 @@ from SPARQLWrapper import SPARQLWrapper
 class Graph_Linker():
     def __init__(self, *args, **kwargs):
         self.sparql = SPARQLWrapper(os.getenv('SPARQL_ENDPOINT'))
+        self.sparql.addDefaultGraph(os.getenv('SPARQL_GRAPH'))
 
         return super().__init__(*args, **kwargs)
 
@@ -272,7 +273,7 @@ class Graph_Linker():
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
-                c rdf:type dblp:DatabaseConference
+                ?c rdf:type dblp:DatabaseConference
             }
 
             WHERE {
