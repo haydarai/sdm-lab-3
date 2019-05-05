@@ -7,7 +7,7 @@ class ABox_Generator():
     def __init__(self, *args, **kwargs):
         self.graph = Graph()
         self.dblp_ns = Namespace('https://dblp.org/ontologies/')
-        self.dbpedia_ns = Namespace('https://dbpedia.org/ontology/')
+        self.dbpedia_ns = Namespace('http://dbpedia.org/ontology/')
 
         return super().__init__(*args, **kwargs)
 

@@ -110,7 +110,7 @@ class Graph_Linker():
         print('Linking journals...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -129,13 +129,13 @@ class Graph_Linker():
             }
         """)
         self.sparql.query()
-        print('Journals linked to https://dbpedia.org/ontology/AcademicJournal.')
+        print('Journals linked to http://dbpedia.org/ontology/AcademicJournal.')
 
     def link_conferences(self):
         print('Linking conferences...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -154,13 +154,13 @@ class Graph_Linker():
             }
         """)
         self.sparql.query()
-        print('Conferences linked to https://dbpedia.org/ontology/AcademicConference.')
+        print('Conferences linked to http://dbpedia.org/ontology/AcademicConference.')
 
     def link_random_open_access_journals(self):
         print('Generating and linking random open access journals...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -187,7 +187,7 @@ class Graph_Linker():
         print('Generating and linking random close access journals...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -214,7 +214,7 @@ class Graph_Linker():
         print('Linking algorithm conferences...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -241,7 +241,7 @@ class Graph_Linker():
         print('Linking network conferences...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
@@ -269,7 +269,7 @@ class Graph_Linker():
         print('Linking database conferences...')
         self.sparql.setQuery("""
             PREFIX dblp: <https://dblp.org/ontologies/>
-            PREFIX dbo: <https://dbpedia.org/ontology/>
+            PREFIX dbo: <http://dbpedia.org/ontology/>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
             INSERT {
