@@ -28,7 +28,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Authors linked to https://dblp.org/ontologies/Author.')
 
     def link_papers(self):
@@ -52,7 +52,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Papers linked to http://purl.org/ontology/bibo/AcademicArticle.')
 
     def link_reviewers(self):
@@ -78,7 +78,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Reviewers linked to https://dblp.org/ontologies/Reviewer.')
 
     def link_schools(self):
@@ -102,7 +102,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Schools linked to https://dblp.org/ontologies/School.')
 
     def link_journals(self):
@@ -127,7 +127,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Journals linked to https://dbpedia.org/ontology/AcademicJournal.')
 
     def link_conferences(self):
@@ -152,7 +152,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Conferences linked to https://dbpedia.org/ontology/AcademicConference.')
 
     def link_random_open_access_journals(self):
@@ -179,7 +179,7 @@ class Graph_Linker():
                 LIMIT 200
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Open access journals generated and linked to https://dblp.org/ontologies/OpenAccessJournal.')
 
     def link_random_close_access_journals(self):
@@ -206,7 +206,7 @@ class Graph_Linker():
                 LIMIT 200
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Close access journals generated and linked to https://dblp.org/ontologies/CloseAccessJournal.')
 
     def link_algorithm_conferences(self):
@@ -233,7 +233,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print('Algorithm conferences linked to https://dblp.org/ontologies/AlgorithmConference.')
 
     def link_network_conferences(self):
@@ -260,7 +260,7 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print(
             'Network conferences linked to https://dblp.org/ontologies/NetworkConference.')
 
@@ -288,6 +288,6 @@ class Graph_Linker():
                 }
             }
         """)
-        sparql.query()
+        self.sparql.query()
         print(
             'Database conferences linked to https://dblp.org/ontologies/DatabaseConference.')
