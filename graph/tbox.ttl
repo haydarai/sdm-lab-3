@@ -81,12 +81,14 @@ owl:topDataProperty rdfs:range xsd:string .
 
 ###  https://dblp.org/ontologies/abstract
 :abstract rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
           rdfs:domain <http://purl.org/ontology/bibo/Document> ;
           rdfs:range xsd:string .
 
 
 ###  https://dblp.org/ontologies/accept
 :accept rdf:type owl:DatatypeProperty ;
+        rdfs:subPropertyOf owl:topDataProperty ;
         rdfs:domain :Review ;
         rdfs:range xsd:boolean .
 
@@ -101,6 +103,7 @@ owl:topDataProperty rdfs:range xsd:string .
 
 ###  https://dblp.org/ontologies/edition
 :edition rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty ;
          rdfs:domain <http://dbpedia.org/ontology/AcademicConference> ,
                      <http://dbpedia.org/ontology/AcademicJournal> ;
          rdfs:range xsd:integer ,
@@ -116,6 +119,7 @@ owl:topDataProperty rdfs:range xsd:string .
 
 ###  https://dblp.org/ontologies/numOfReviewers
 :numOfReviewers rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
                 rdfs:domain <http://dbpedia.org/ontology/AcademicConference> ,
                             <http://dbpedia.org/ontology/AcademicJournal> ;
                 rdfs:range xsd:integer .
@@ -123,6 +127,7 @@ owl:topDataProperty rdfs:range xsd:string .
 
 ###  https://dblp.org/ontologies/textualDescription
 :textualDescription rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
                     rdfs:domain :Review ;
                     rdfs:range xsd:string .
 
@@ -138,6 +143,7 @@ owl:topDataProperty rdfs:range xsd:string .
 
 ###  https://dblp.org/ontologies/venue
 :venue rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty ;
        rdfs:domain <http://dbpedia.org/ontology/Event> ;
        rdfs:range xsd:string .
 
@@ -194,9 +200,9 @@ owl:topDataProperty rdfs:range xsd:string .
                                          rdfs:subClassOf owl:Thing .
 
 
-###  https://dblp.org/ontologies/AlgorithmConference
-:AlgorithmConference rdf:type owl:Class ;
-                     rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
+###  https://dblp.org/ontologies/ArtificialIntelligenceConference
+:ArtificialIntelligenceConference rdf:type owl:Class ;
+                                  rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
 
 
 ###  https://dblp.org/ontologies/Author
@@ -229,9 +235,9 @@ owl:topDataProperty rdfs:range xsd:string .
            rdfs:subClassOf <http://purl.org/ontology/bibo/AcademicArticle> .
 
 
-###  https://dblp.org/ontologies/NetworkConference
-:NetworkConference rdf:type owl:Class ;
-                   rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
+###  https://dblp.org/ontologies/MachineLearningConference
+:MachineLearningConference rdf:type owl:Class ;
+                           rdfs:subClassOf <http://dbpedia.org/ontology/AcademicConference> .
 
 
 ###  https://dblp.org/ontologies/OpenAccessJournal

@@ -269,4 +269,4 @@ class ABox_Generator():
 
     def save(self):
         self.graph.serialize(destination='graph/abox.ttl', format='turtle')
-        print('ABox saved as graph.ttl')
+        print('ABox saved as graph/abox.ttl')
